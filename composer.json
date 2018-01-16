@@ -1,0 +1,18 @@
+{
+  "name": "wearejh/m2-module-landing-categories",
+  "description": "Landing Categories for Magento 2",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*",
+    "magento/module-catalog": "*",
+    "magento/module-widget": "*"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Jh\\LandingCategories\\": ""
+    }
+  }
+}

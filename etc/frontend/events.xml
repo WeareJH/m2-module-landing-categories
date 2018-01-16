@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="layout_load_before">
+        <observer name="Jh_LandingCategories::layout_load_before"
+                  instance="Jh\LandingCategories\Observer\Layout\LoadBeforeObserver"
+        />
+    </event>
+</config>
