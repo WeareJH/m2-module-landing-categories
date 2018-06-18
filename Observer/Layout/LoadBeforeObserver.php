@@ -37,6 +37,10 @@ class LoadBeforeObserver implements ObserverInterface
             return;
         }
 
+        if (empty($this->registry->registry('current_category'))) {
+            return;
+        }
+
         if (ModePlugin::DM_LANDING !== $this->registry->registry('current_category')->getDisplayMode()) {
             return;
         }
