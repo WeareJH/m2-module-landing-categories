@@ -2,6 +2,7 @@
 
 namespace Jh\LandingCategories\Plugin\Category\Attribute\Source;
 
+use Jh\LandingCategories\Model\Config\Data as LandingCategoryData;
 use Magento\Catalog\Model\Category\Attribute\Source\Mode;
 
 /**
@@ -10,6 +11,15 @@ use Magento\Catalog\Model\Category\Attribute\Source\Mode;
 class ModePlugin
 {
     const DM_LANDING = 'JH_LANDING';
+    /**
+     * @var LandingCategoryData
+     */
+    private $landingCategoryData;
+
+    public function __construct(LandingCategoryData $landingCategoryData)
+    {
+        $this->landingCategoryData = $landingCategoryData;
+    }
 
     /**
      * Add the landing category display mode
@@ -21,8 +31,11 @@ class ModePlugin
     {
         if (is_array($result)) {
             $result[] = ['value' => self::DM_LANDING, 'label' => __('Landing Category')];
+            $catData = $this->landingCategoryData->get();
+            foreach($catData as $option) {
+                $result[] = ['value' => $option['name'], 'label' => $option['label']];
+            }
         }
-
         return $result;
     }
 }
