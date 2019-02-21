@@ -30,9 +30,8 @@ class ModePlugin
     public function afterGetAllOptions(Mode $subject, $result)
     {
         if (is_array($result)) {
-            $result[] = ['value' => self::DM_LANDING, 'label' => __('Landing Category')];
             $catData = $this->landingCategoryData->get();
-            foreach($catData as $option) {
+            foreach ($catData as $option) {
                 $result[] = ['value' => $option['name'], 'label' => $option['label']];
             }
         }

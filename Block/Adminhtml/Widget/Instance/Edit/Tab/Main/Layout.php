@@ -2,6 +2,9 @@
 
 namespace Jh\LandingCategories\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
 
+use Jh\LandingCategories\Model\Config\Data as LandingCategoryData;
+use Magento\Framework\Phrase;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout as MainLayout;
 
 /**
@@ -10,6 +13,22 @@ use Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout as MainL
 class Layout extends MainLayout
 {
     protected $_template = 'Magento_Widget::instance/edit/layout.phtml';
+    /**
+     * @var LandingCategoryData
+     */
+    private $landingCategoryData;
+
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Catalog\Model\Product\Type $productType,
+        LandingCategoryData $landingCategoryData,
+        array $data = [],
+        Json $serializer = null
+    )
+    {
+        parent::__construct($context, $productType, $data, $serializer);
+        $this->landingCategoryData = $landingCategoryData;
+    }
 
     /**
      * Extended to add the jh_category_landing option.
@@ -19,35 +38,28 @@ class Layout extends MainLayout
      */
     protected function _getDisplayOnOptions()
     {
-        $options = [];
-        $options[] = ['value' => '', 'label' => $this->escapeJsQuote(__('-- Please Select --'))];
-        $options[] = [
-            'label' => __('Categories'),
-            'value' => [
-                ['value' => 'anchor_categories', 'label' => $this->escapeJsQuote(__('Anchor Categories'))],
-                ['value' => 'notanchor_categories', 'label' => $this->escapeJsQuote(__('Non-Anchor Categories'))],
-                ['value' => 'jh_category_landing', 'label' => $this->escapeJsQuote(__('Landing Categories'))],
-            ],
-        ];
-        foreach ($this->_productType->getTypes() as $typeId => $type) {
-            $productsOptions[] = [
-                'value' => $typeId . '_products',
-                'label' => $this->escapeJsQuote($type['label']),
-            ];
+        $options = parent::_getDisplayOnOptions();
+        $match = __('Categories')->getText();
+
+        foreach ($options as &$option) {
+
+            if (!($option['label'] instanceof Phrase)) {
+                continue;
+            }
+
+            if ($option['label']->getText() === $match) {
+                $newOptions = [];
+                foreach ($this->landingCategoryData->get() as $landingData) {
+                    $newOptions[] = [
+                        'value' => $landingData['name'],
+                        'label' => $this->escapeJs(__($landingData['label']))
+                    ];
+                }
+                $beforeOptions = $option['value'];
+                $option['value'] = \array_merge($newOptions, $beforeOptions);
+            }
+
         }
-        array_unshift(
-            $productsOptions,
-            ['value' => 'all_products', 'label' => $this->escapeJsQuote(__('All Product Types'))]
-        );
-        $options[] = ['label' => $this->escapeJsQuote(__('Products')), 'value' => $productsOptions];
-        $options[] = [
-            'label' => $this->escapeJsQuote(__('Generic Pages')),
-            'value' => [
-                ['value' => 'all_pages', 'label' => $this->escapeJsQuote(__('All Pages'))],
-                ['value' => 'pages', 'label' => $this->escapeJsQuote(__('Specified Page'))],
-                ['value' => 'page_layouts', 'label' => $this->escapeJsQuote(__('Page Layouts'))],
-            ],
-        ];
         return $options;
     }
 
@@ -57,15 +69,18 @@ class Layout extends MainLayout
     public function getDisplayOnContainers()
     {
         $container = parent::getDisplayOnContainers();
-        $container['jh_category_landing'] = [
-            'label' => 'Categories',
-            'code' => 'categories',
-            'name' => 'jh_category_landing',
-            'layout_handle' => 'jh_category_landing',
-            'is_anchor_only' => 0,
-            'product_type_id' => '',
-        ];
+        $landingCategoryData = $this->landingCategoryData->get();
 
+        foreach ($landingCategoryData as $data) {
+            $container[$data['name']] = [
+                'label' => 'Categories',
+                'code' => 'categories',
+                'name' => $data['layout'],
+                'layout_handle' => $data['layout'],
+                'is_anchor_only' => 0,
+                'product_type_id' => '',
+            ];
+        }
         return $container;
     }
 }
