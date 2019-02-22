@@ -23,7 +23,10 @@ class LoadBeforeObserver implements ObserverInterface
      */
     private $categoryData;
 
-    public function __construct(Registry $registry, \Jh\LandingCategories\Model\Config\Data $categoryData)
+    public function __construct(
+        Registry $registry,
+        \Jh\LandingCategories\Model\Config\Data $categoryData
+    )
     {
         $this->registry = $registry;
         $this->categoryData = $categoryData;
@@ -46,13 +49,11 @@ class LoadBeforeObserver implements ObserverInterface
             return;
         }
 
-
         $displayMode = $this->getCustomLayoutHandle();
 
         if ($displayMode === null) {
             return;
         }
-
 
         $event->getLayout()->getUpdate()->addHandle($displayMode['layout']);
     }
@@ -68,10 +69,7 @@ class LoadBeforeObserver implements ObserverInterface
                 return $value;
             }
         }
-
         return null;
-        //
-        //    \array_column($currentCategory,)
 
     }
 }
