@@ -6,8 +6,11 @@
                 <xs:element name="view" type="viewDeclaration" />
             </xs:sequence>
         </xs:complexType>
+        <xs:unique name="uniqueViewName">
+            <xs:selector xpath="view"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
     </xs:element>
-
     <xs:complexType name="viewDeclaration">
         <xs:annotation>
             <xs:documentation>

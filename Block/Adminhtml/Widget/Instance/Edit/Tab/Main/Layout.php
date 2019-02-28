@@ -3,6 +3,8 @@
 namespace Jh\LandingCategories\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
 
 use Jh\LandingCategories\Model\Config\Data as LandingCategoryData;
+use Magento\Backend\Block\Template\Context;
+use Magento\Catalog\Model\Product\Type;
 use Magento\Framework\Phrase;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout as MainLayout;
@@ -19,8 +21,8 @@ class Layout extends MainLayout
     private $landingCategoryData;
 
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Catalog\Model\Product\Type $productType,
+        Context $context,
+        Type $productType,
         LandingCategoryData $landingCategoryData,
         array $data = [],
         Json $serializer = null

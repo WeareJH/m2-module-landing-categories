@@ -2,8 +2,22 @@
 
 namespace Jh\LandingCategories\Model\Widget;
 
-use Jh\LandingCategories\Model\Config\Data;
+use Jh\LandingCategories\Model\Config\Data as LandingCategoryData;
+use Magento\Catalog\Model\Product\Type;
+use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Escaper;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Math\Random;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\View\FileSystem as ViewFileSystemAlias;
+use Magento\Widget\Helper\Conditions;
+use Magento\Widget\Model\Config\Reader;
+use Magento\Widget\Model\NamespaceResolver;
+use Magento\Widget\Model\Widget;
 use Magento\Widget\Model\Widget\Instance as WidgetInstance;
 
 /**
@@ -11,28 +25,27 @@ use Magento\Widget\Model\Widget\Instance as WidgetInstance;
  */
 class Instance extends WidgetInstance
 {
-    const LANDING_CATEGORY_LAYOUT_HANDLE = 'jh_category_landing';
     /**
-     * @var Data
+     * @var LandingCategoryData
      */
     private $landingCategoryData;
 
     public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\Escaper $escaper,
-        \Magento\Framework\View\FileSystem $viewFileSystem,
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Catalog\Model\Product\Type $productType,
-        \Magento\Widget\Model\Config\Reader $reader,
-        \Magento\Widget\Model\Widget $widgetModel,
-        \Magento\Widget\Model\NamespaceResolver $namespaceResolver,
-        \Magento\Framework\Math\Random $mathRandom,
-        \Magento\Framework\Filesystem $filesystem,
-        \Magento\Widget\Helper\Conditions $conditionsHelper,
-        \Jh\LandingCategories\Model\Config\Data $landingCategoryData,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        Context $context,
+        Registry $registry,
+        Escaper $escaper,
+        ViewFileSystemAlias $viewFileSystem,
+        TypeListInterface $cacheTypeList,
+        Type $productType,
+        Reader $reader,
+        Widget $widgetModel,
+        NamespaceResolver $namespaceResolver,
+        Random $mathRandom,
+        Filesystem $filesystem,
+        Conditions $conditionsHelper,
+        LandingCategoryData $landingCategoryData,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
         array $relatedCacheTypes = [],
         array $data = [],
         Json $serializer = null

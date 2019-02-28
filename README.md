@@ -19,7 +19,7 @@ In the admin panel, on the add/edit a widget page, under Layout Updates, set Dis
 
 
 
-### (Add your own display modes - from version 1.2.2)
+### (Add your own display modes - from version 1.1.0)
 
 To add your own display modes: 
 - Add this module as a dependency in your own module

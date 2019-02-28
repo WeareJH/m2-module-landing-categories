@@ -10,7 +10,6 @@ use Magento\Catalog\Model\Category\Attribute\Source\Mode;
  */
 class ModePlugin
 {
-    const DM_LANDING = 'JH_LANDING';
     /**
      * @var LandingCategoryData
      */
