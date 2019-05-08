@@ -31,7 +31,7 @@ class ModePlugin
         if (is_array($result)) {
             $catData = $this->landingCategoryData->get();
             foreach ($catData as $option) {
-                $result[] = ['value' => $option['name'], 'label' => $option['label']];
+                $result[] = ['value' => $option['layout'], 'label' => $option['label']];
             }
         }
         return $result;

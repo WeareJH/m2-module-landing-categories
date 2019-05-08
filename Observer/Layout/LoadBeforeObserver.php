@@ -64,7 +64,7 @@ class LoadBeforeObserver implements ObserverInterface
         $categoryData = $this->categoryData->get();
 
         foreach ($categoryData as $key => $value) {
-            if ($value["name"] === $displayMode) {
+            if ($value["layout"] === $displayMode) {
                 return $value;
             }
         }

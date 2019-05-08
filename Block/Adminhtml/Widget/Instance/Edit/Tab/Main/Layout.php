@@ -53,7 +53,7 @@ class Layout extends MainLayout
                 $newOptions = [];
                 foreach ($this->landingCategoryData->get() as $landingData) {
                     $newOptions[] = [
-                        'value' => $landingData['name'],
+                        'value' => $landingData['layout'],
                         'label' => $this->escapeJs(__($landingData['label']))
                     ];
                 }
